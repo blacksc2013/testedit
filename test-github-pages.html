@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages Test - Yamaç Harita</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+        .test-pass {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .test-fail {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .test-pending {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .status {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .pass { color: #28a745; }
+        .fail { color: #dc3545; }
+        .pending { color: #ffc107; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 GitHub Pages Functionality Test</h1>
+        <p>This page tests all the GitHub Pages functionality for the Yamaç Harita website.</p>
+        
+        <div id="testResults">
+            <div class="test-item test-pending" id="test1">
+                <strong>Test 1:</strong> Content Files Loading
+                <span class="status pending" id="status1">Testing...</span>
+            </div>
+            
+            <div class="test-item test-pending" id="test2">
+                <strong>Test 2:</strong> Main Website Loading
+                <span class="status pending" id="status2">Testing...</span>
+            </div>
+            
+            <div class="test-item test-pending" id="test3">
+                <strong>Test 3:</strong> Content Editor Loading
+                <span class="status pending" id="status3">Testing...</span>
+            </div>
+            
+            <div class="test-item test-pending" id="test4">
+                <strong>Test 4:</strong> GitHub Pages Hub Loading
+                <span class="status pending" id="status4">Testing...</span>
+            </div>
+            
+            <div class="test-item test-pending" id="test5">
+                <strong>Test 5:</strong> Assets Loading (CSS, JS, Images)
+                <span class="status pending" id="status5">Testing...</span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button class="btn" onclick="runAllTests()">🔄 Run All Tests</button>
+            <button class="btn" onclick="openMainSite()">🌐 Open Main Website</button>
+            <button class="btn" onclick="openEditor()">✏️ Open Content Editor</button>
+            <button class="btn" onclick="openGitHubHub()">📁 Open GitHub Hub</button>
+        </div>
+        
+        <div id="testLog" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;">
+            <strong>Test Log:</strong><br>
+        </div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('testLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function updateTestStatus(testId, status, message) {
+            const testElement = document.getElementById(testId);
+            const statusElement = document.getElementById(`status${testId.replace('test', '')}`);
+            
+            testElement.className = `test-item test-${status}`;
+            statusElement.className = `status ${status}`;
+            statusElement.textContent = message;
+        }
+
+        async function testContentFiles() {
+            log('Testing content files loading...');
+            const contentFiles = [
+                'content/site-settings.md',
+                'content/hero-slides.md',
+                'content/about.md',
+                'content/team.md',
+                'content/contact.md'
+            ];
+            
+            let loadedCount = 0;
+            for (let file of contentFiles) {
+                try {
+                    const response = await fetch(file);
+                    if (response.ok) {
+                        loadedCount++;
+                        log(`✓ ${file} loaded successfully`);
+                    } else {
+                        log(`✗ ${file} failed to load (${response.status})`);
+                    }
+                } catch (error) {
+                    log(`✗ ${file} failed to load: ${error.message}`);
+                }
+            }
+            
+            if (loadedCount === contentFiles.length) {
+                updateTestStatus('test1', 'pass', 'All content files loaded');
+            } else {
+                updateTestStatus('test1', 'fail', `${loadedCount}/${contentFiles.length} files loaded`);
+            }
+        }
+
+        async function testMainWebsite() {
+            log('Testing main website loading...');
+            try {
+                const response = await fetch('editable-index.html');
+                if (response.ok) {
+                    updateTestStatus('test2', 'pass', 'Main website loads successfully');
+                    log('✓ Main website loads successfully');
+                } else {
+                    updateTestStatus('test2', 'fail', `Failed to load (${response.status})`);
+                    log(`✗ Main website failed to load (${response.status})`);
+                }
+            } catch (error) {
+                updateTestStatus('test2', 'fail', `Error: ${error.message}`);
+                log(`✗ Main website error: ${error.message}`);
+            }
+        }
+
+        async function testContentEditor() {
+            log('Testing content editor loading...');
+            try {
+                const response = await fetch('editor.html');
+                if (response.ok) {
+                    updateTestStatus('test3', 'pass', 'Content editor loads successfully');
+                    log('✓ Content editor loads successfully');
+                } else {
+                    updateTestStatus('test3', 'fail', `Failed to load (${response.status})`);
+                    log(`✗ Content editor failed to load (${response.status})`);
+                }
+            } catch (error) {
+                updateTestStatus('test3', 'fail', `Error: ${error.message}`);
+                log(`✗ Content editor error: ${error.message}`);
+            }
+        }
+
+        async function testGitHubHub() {
+            log('Testing GitHub Pages hub loading...');
+            try {
+                const response = await fetch('index-github.html');
+                if (response.ok) {
+                    updateTestStatus('test4', 'pass', 'GitHub hub loads successfully');
+                    log('✓ GitHub Pages hub loads successfully');
+                } else {
+                    updateTestStatus('test4', 'fail', `Failed to load (${response.status})`);
+                    log(`✗ GitHub Pages hub failed to load (${response.status})`);
+                }
+            } catch (error) {
+                updateTestStatus('test4', 'fail', `Error: ${error.message}`);
+                log(`✗ GitHub Pages hub error: ${error.message}`);
+            }
+        }
+
+        async function testAssets() {
+            log('Testing assets loading...');
+            const assets = [
+                'assets/css/bootstrap.min.css',
+                'assets/css/style.css',
+                'assets/js/content-loader.js',
+                'assets/js/vendor/jquery-3.7.1.min.js',
+                'assets/img/Logo.png'
+            ];
+            
+            let loadedCount = 0;
+            for (let asset of assets) {
+                try {
+                    const response = await fetch(asset);
+                    if (response.ok) {
+                        loadedCount++;
+                        log(`✓ ${asset} loaded successfully`);
+                    } else {
+                        log(`✗ ${asset} failed to load (${response.status})`);
+                    }
+                } catch (error) {
+                    log(`✗ ${asset} failed to load: ${error.message}`);
+                }
+            }
+            
+            if (loadedCount === assets.length) {
+                updateTestStatus('test5', 'pass', 'All assets loaded');
+            } else {
+                updateTestStatus('test5', 'fail', `${loadedCount}/${assets.length} assets loaded`);
+            }
+        }
+
+        async function runAllTests() {
+            log('Starting all tests...');
+            await testContentFiles();
+            await testMainWebsite();
+            await testContentEditor();
+            await testGitHubHub();
+            await testAssets();
+            log('All tests completed!');
+        }
+
+        function openMainSite() {
+            window.open('editable-index.html', '_blank');
+        }
+
+        function openEditor() {
+            window.open('editor.html', '_blank');
+        }
+
+        function openGitHubHub() {
+            window.open('index-github.html', '_blank');
+        }
+
+        // Run tests automatically when page loads
+        window.addEventListener('load', () => {
+            log('GitHub Pages test page loaded');
+            runAllTests();
+        });
+    </script>
+</body>
+</html>

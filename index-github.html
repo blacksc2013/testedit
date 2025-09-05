@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yamaç Harita - GitHub Pages Version</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+        }
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        p {
+            color: #666;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+        .btn-info:hover {
+            background: #117a8b;
+            transform: translateY(-2px);
+        }
+        .features {
+            margin-top: 40px;
+            text-align: left;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .feature-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            color: #007bff;
+        }
+        .feature-text {
+            color: #555;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <img src="assets/img/Logo.png" alt="Yamaç Harita" class="logo">
+        <h1>Yamaç Harita</h1>
+        <p>Harita ve Kadastro Mühendislik Hizmetleri</p>
+        
+        <div class="warning">
+            <i class="fas fa-info-circle"></i>
+            <strong>GitHub Pages Version:</strong> This is the GitHub Pages version of your website. 
+            Choose how you want to access your site:
+        </div>
+
+        <div class="buttons">
+            <a href="editable-index.html" class="btn btn-primary">
+                <i class="fas fa-eye"></i>
+                View Website
+            </a>
+            <a href="editor.html" class="btn btn-success">
+                <i class="fas fa-edit"></i>
+                Edit Content
+            </a>
+            <a href="https://github.com" class="btn btn-info" target="_blank">
+                <i class="fab fa-github"></i>
+                GitHub Repository
+            </a>
+        </div>
+
+        <div class="features">
+            <h3>Available Features:</h3>
+            <div class="feature">
+                <i class="fas fa-globe feature-icon"></i>
+                <div class="feature-text">
+                    <strong>Live Website:</strong> View your complete website with all content
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-edit feature-icon"></i>
+                <div class="feature-text">
+                    <strong>Content Editor:</strong> Easy-to-use editor for updating text, images, and content
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt feature-icon"></i>
+                <div class="feature-text">
+                    <strong>Mobile Responsive:</strong> Works perfectly on all devices
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-download feature-icon"></i>
+                <div class="feature-text">
+                    <strong>Export Content:</strong> Download updated content files for GitHub
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #e9ecef; border-radius: 10px;">
+            <h4>How to Update Your Website:</h4>
+            <ol style="text-align: left; color: #555;">
+                <li>Click "Edit Content" to open the content editor</li>
+                <li>Make your changes to any section</li>
+                <li>Click "Save All Changes"</li>
+                <li>Click "Export Content" to download updated files</li>
+                <li>Upload the files to your GitHub repository</li>
+                <li>Your changes will be live within a few minutes!</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Auto-redirect to editable version after 5 seconds
+        setTimeout(() => {
+            if (confirm('Would you like to go directly to the website? Click OK to view the site, or Cancel to stay here.')) {
+                window.location.href = 'editable-index.html';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

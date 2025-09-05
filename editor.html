@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yamaç Harita - Content Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+        }
+        .editor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .editor-header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .preview-btn {
+            background: #17a2b8;
+            color: white;
+        }
+        .section-title {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .status-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .array-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #f8f9fa;
+        }
+        .array-controls {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <div class="editor-header">
+            <h1><i class="fas fa-edit"></i> Yamaç Harita - Content Editor</h1>
+            <p>Edit your website content easily. Changes will be saved and can be deployed to GitHub Pages.</p>
+            <div class="status-message" id="statusMessage"></div>
+        </div>
+
+        <!-- Site Settings -->
+        <div class="section-card">
+            <h3 class="section-title">Site Settings</h3>
+            <div class="form-group">
+                <label for="siteTitle">Site Title</label>
+                <input type="text" id="siteTitle" class="form-control" placeholder="Yamaç Harita">
+                <div class="help-text">This appears in the browser tab and search results</div>
+            </div>
+            <div class="form-group">
+                <label for="siteDescription">Site Description</label>
+                <textarea id="siteDescription" class="form-control" rows="3" placeholder="Yamaç Harita Mühendislik Bürosu - Harita ve Kadastro Mühendislik Hizmetleri"></textarea>
+                <div class="help-text">Brief description of your business for search engines</div>
+            </div>
+            <div class="form-group">
+                <label for="siteKeywords">Keywords</label>
+                <input type="text" id="siteKeywords" class="form-control" placeholder="harita, kadastro, mühendislik, düzce">
+                <div class="help-text">Comma-separated keywords for SEO</div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="section-card">
+            <h3 class="section-title">Hero Section (Main Banner)</h3>
+            <div id="heroSlides">
+                <!-- Hero slides will be populated here -->
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addHeroSlide()">
+                <i class="fas fa-plus"></i> Add New Slide
+            </button>
+        </div>
+
+        <!-- About Section -->
+        <div class="section-card">
+            <h3 class="section-title">About Section</h3>
+            <div class="form-group">
+                <label for="aboutTitle">Section Title</label>
+                <input type="text" id="aboutTitle" class="form-control" placeholder="Hakkımızda">
+            </div>
+            <div class="form-group">
+                <label for="aboutDescription">Company Description</label>
+                <textarea id="aboutDescription" class="form-control" rows="4" placeholder="Yamaç Harita Mühendislik Bürosu 2006 yılında..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="profileName">Profile Name</label>
+                <input type="text" id="profileName" class="form-control" placeholder="Ali Osman Yamaç">
+            </div>
+            <div class="form-group">
+                <label for="profileTitle">Profile Title</label>
+                <input type="text" id="profileTitle" class="form-control" placeholder="Harita Kadastro Mühendisi">
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="section-card">
+            <h3 class="section-title">Team Section</h3>
+            <div class="form-group">
+                <label for="teamTitle">Section Title</label>
+                <input type="text" id="teamTitle" class="form-control" placeholder="Ekip Üyelerimiz">
+            </div>
+            <div class="form-group">
+                <label for="teamDescription">Section Description</label>
+                <textarea id="teamDescription" class="form-control" rows="3" placeholder="We are a real estate firm with over 20 years of expertise..."></textarea>
+            </div>
+            <div id="teamMembers">
+                <!-- Team members will be populated here -->
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addTeamMember()">
+                <i class="fas fa-plus"></i> Add Team Member
+            </button>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section-card">
+            <h3 class="section-title">Contact Information</h3>
+            <div class="form-group">
+                <label for="contactAddress">Address</label>
+                <input type="text" id="contactAddress" class="form-control" placeholder="Azmimilli, 431. Sk., 81020 Düzce / Merkez">
+            </div>
+            <div class="form-group">
+                <label for="contactPhone">Phone</label>
+                <input type="text" id="contactPhone" class="form-control" placeholder="0380 514 19 99">
+            </div>
+            <div class="form-group">
+                <label for="contactWhatsApp">WhatsApp</label>
+                <input type="text" id="contactWhatsApp" class="form-control" placeholder="0380 514 19 99">
+            </div>
+            <div class="form-group">
+                <label for="contactEmail">Email</label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="yamacharita2006@hotmail.com">
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="section-card">
+            <h3 class="section-title">Actions</h3>
+            <button type="button" class="btn btn-success" onclick="saveAllContent()">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="loadContent()">
+                <i class="fas fa-refresh"></i> Reload Content
+            </button>
+            <button type="button" class="btn preview-btn" onclick="previewSite()">
+                <i class="fas fa-eye"></i> Preview Site
+            </button>
+            <button type="button" class="btn btn-primary" onclick="exportContent()">
+                <i class="fas fa-download"></i> Export Content
+            </button>
+        </div>
+    </div>
+
+    <script src="assets/js/vendor/jquery-3.7.1.min.js"></script>
+    <script>
+        // Content management system
+        let content = {};
+
+        // Initialize the editor
+        $(document).ready(function() {
+            loadContent();
+        });
+
+        // Load content from markdown files
+        async function loadContent() {
+            try {
+                showStatus('Loading content...', 'info');
+                
+                // Load all content files
+                const files = [
+                    'content/site-settings.md',
+                    'content/hero-slides.md',
+                    'content/about.md',
+                    'content/team.md',
+                    'content/contact.md'
+                ];
+
+                for (let file of files) {
+                    try {
+                        const response = await fetch(file);
+                        if (response.ok) {
+                            const text = await response.text();
+                            const fileName = file.split('/').pop().replace('.md', '');
+                            content[fileName] = parseMarkdown(text);
+                        }
+                    } catch (error) {
+                        console.warn(`Could not load ${file}:`, error);
+                    }
+                }
+
+                populateForm();
+                showStatus('Content loaded successfully!', 'success');
+            } catch (error) {
+                showStatus('Error loading content: ' + error.message, 'error');
+            }
+        }
+
+        // Parse markdown frontmatter
+        function parseMarkdown(text) {
+            const lines = text.split('\n');
+            const frontMatter = [];
+            let inFrontMatter = false;
+
+            for (let line of lines) {
+                if (line.trim() === '---' && !inFrontMatter) {
+                    inFrontMatter = true;
+                    continue;
+                }
+                if (line.trim() === '---' && inFrontMatter) {
+                    break;
+                }
+                if (inFrontMatter) {
+                    frontMatter.push(line);
+                }
+            }
+
+            return parseYAML(frontMatter.join('\n'));
+        }
+
+        // Parse YAML-like frontmatter
+        function parseYAML(yaml) {
+            const obj = {};
+            const lines = yaml.split('\n');
+            
+            for (let line of lines) {
+                if (line.trim() && line.includes(':')) {
+                    const [key, ...valueParts] = line.split(':');
+                    let value = valueParts.join(':').trim();
+                    
+                    // Remove quotes
+                    if ((value.startsWith('"') && value.endsWith('"')) || 
+                        (value.startsWith("'") && value.endsWith("'"))) {
+                        value = value.slice(1, -1);
+                    }
+                    
+                    // Handle arrays
+                    if (value.startsWith('[') && value.endsWith(']')) {
+                        try {
+                            value = JSON.parse(value);
+                        } catch (e) {
+                            // Keep as string if JSON parsing fails
+                        }
+                    }
+                    
+                    obj[key.trim()] = value;
+                }
+            }
+            
+            return obj;
+        }
+
+        // Populate form with loaded content
+        function populateForm() {
+            // Site settings
+            if (content['site-settings']) {
+                $('#siteTitle').val(content['site-settings'].title || '');
+                $('#siteDescription').val(content['site-settings'].description || '');
+                $('#siteKeywords').val(content['site-settings'].keywords || '');
+            }
+
+            // About section
+            if (content.about) {
+                $('#aboutTitle').val(content.about.title || '');
+                $('#aboutDescription').val(content.about.description || '');
+                $('#profileName').val(content.about.profile_name || '');
+                $('#profileTitle').val(content.about.profile_title || '');
+            }
+
+            // Team section
+            if (content.team) {
+                $('#teamTitle').val(content.team.title || '');
+                $('#teamDescription').val(content.team.description || '');
+                populateTeamMembers();
+            }
+
+            // Contact section
+            if (content.contact) {
+                $('#contactAddress').val(content.contact.address || '');
+                $('#contactPhone').val(content.contact.phone || '');
+                $('#contactWhatsApp').val(content.contact.whatsapp || '');
+                $('#contactEmail').val(content.contact.email || '');
+            }
+
+            // Hero slides
+            populateHeroSlides();
+        }
+
+        // Populate hero slides
+        function populateHeroSlides() {
+            const container = $('#heroSlides');
+            container.empty();
+
+            if (content['hero-slides'] && content['hero-slides'].slides) {
+                content['hero-slides'].slides.forEach((slide, index) => {
+                    const slideHtml = createHeroSlideHtml(slide, index);
+                    container.append(slideHtml);
+                });
+            }
+        }
+
+        // Create hero slide HTML
+        function createHeroSlideHtml(slide, index) {
+            return `
+                <div class="array-item" data-index="${index}">
+                    <h5>Slide ${index + 1}</h5>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control slide-title" value="${slide.title || ''}" placeholder="Slide title">
+                    </div>
+                    <div class="form-group">
+                        <label>Subtitle</label>
+                        <input type="text" class="form-control slide-subtitle" value="${slide.subtitle || ''}" placeholder="YAMAÇ HARİTA">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control slide-description" rows="3" placeholder="Slide description">${slide.description || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Background Image URL</label>
+                        <input type="text" class="form-control slide-bg-image" value="${slide.background_image || ''}" placeholder="/assets/img/hero/bg1.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Button 1 Text</label>
+                        <input type="text" class="form-control slide-btn1-text" value="${slide.button1_text || ''}" placeholder="Detayları Gör">
+                    </div>
+                    <div class="form-group">
+                        <label>Button 1 Link</label>
+                        <input type="text" class="form-control slide-btn1-link" value="${slide.button1_link || ''}" placeholder="contact.html">
+                    </div>
+                    <div class="form-group">
+                        <label>Button 2 Text</label>
+                        <input type="text" class="form-control slide-btn2-text" value="${slide.button2_text || ''}" placeholder="Fiyat Al">
+                    </div>
+                    <div class="form-group">
+                        <label>Button 2 Link</label>
+                        <input type="text" class="form-control slide-btn2-link" value="${slide.button2_link || ''}" placeholder="contact.html">
+                    </div>
+                    <div class="array-controls">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeHeroSlide(${index})">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add new hero slide
+        function addHeroSlide() {
+            if (!content['hero-slides']) {
+                content['hero-slides'] = { slides: [] };
+            }
+            if (!content['hero-slides'].slides) {
+                content['hero-slides'].slides = [];
+            }
+
+            const newSlide = {
+                title: '',
+                subtitle: 'YAMAÇ HARİTA',
+                description: '',
+                background_image: '/assets/img/hero/bg1.jpg',
+                button1_text: 'Detayları Gör',
+                button1_link: 'contact.html',
+                button2_text: 'Fiyat Al',
+                button2_link: 'contact.html'
+            };
+
+            content['hero-slides'].slides.push(newSlide);
+            populateHeroSlides();
+        }
+
+        // Remove hero slide
+        function removeHeroSlide(index) {
+            if (content['hero-slides'] && content['hero-slides'].slides) {
+                content['hero-slides'].slides.splice(index, 1);
+                populateHeroSlides();
+            }
+        }
+
+        // Populate team members
+        function populateTeamMembers() {
+            const container = $('#teamMembers');
+            container.empty();
+
+            if (content.team && content.team.members) {
+                content.team.members.forEach((member, index) => {
+                    const memberHtml = createTeamMemberHtml(member, index);
+                    container.append(memberHtml);
+                });
+            }
+        }
+
+        // Create team member HTML
+        function createTeamMemberHtml(member, index) {
+            return `
+                <div class="array-item" data-index="${index}">
+                    <h5>Team Member ${index + 1}</h5>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control member-name" value="${member.name || ''}" placeholder="Team member name">
+                    </div>
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" class="form-control member-position" value="${member.position || ''}" placeholder="Position title">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" class="form-control member-phone" value="${member.phone || ''}" placeholder="Phone number">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" class="form-control member-image" value="${member.image || ''}" placeholder="/assets/img/team/1.jpeg">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook URL</label>
+                        <input type="text" class="form-control member-facebook" value="${member.social_links?.facebook || ''}" placeholder="https://facebook.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram URL</label>
+                        <input type="text" class="form-control member-instagram" value="${member.social_links?.instagram || ''}" placeholder="https://instagram.com/...">
+                    </div>
+                    <div class="array-controls">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeTeamMember(${index})">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add new team member
+        function addTeamMember() {
+            if (!content.team) {
+                content.team = { members: [] };
+            }
+            if (!content.team.members) {
+                content.team.members = [];
+            }
+
+            const newMember = {
+                name: '',
+                position: '',
+                phone: '',
+                image: '/assets/img/team/new-member.jpg',
+                social_links: {
+                    facebook: '',
+                    instagram: ''
+                }
+            };
+
+            content.team.members.push(newMember);
+            populateTeamMembers();
+        }
+
+        // Remove team member
+        function removeTeamMember(index) {
+            if (content.team && content.team.members) {
+                content.team.members.splice(index, 1);
+                populateTeamMembers();
+            }
+        }
+
+        // Save all content
+        function saveAllContent() {
+            try {
+                // Update content object with form data
+                updateContentFromForm();
+                
+                // Show success message
+                showStatus('Content saved successfully! You can now download the updated files.', 'success');
+                
+                // Enable export button
+                $('#exportContent').prop('disabled', false);
+                
+            } catch (error) {
+                showStatus('Error saving content: ' + error.message, 'error');
+            }
+        }
+
+        // Update content object from form data
+        function updateContentFromForm() {
+            // Site settings
+            if (!content['site-settings']) content['site-settings'] = {};
+            content['site-settings'].title = $('#siteTitle').val();
+            content['site-settings'].description = $('#siteDescription').val();
+            content['site-settings'].keywords = $('#siteKeywords').val();
+
+            // About section
+            if (!content.about) content.about = {};
+            content.about.title = $('#aboutTitle').val();
+            content.about.description = $('#aboutDescription').val();
+            content.about.profile_name = $('#profileName').val();
+            content.about.profile_title = $('#profileTitle').val();
+
+            // Team section
+            if (!content.team) content.team = {};
+            content.team.title = $('#teamTitle').val();
+            content.team.description = $('#teamDescription').val();
+
+            // Update team members from form
+            if (content.team.members) {
+                $('.array-item[data-index]').each(function() {
+                    const index = $(this).data('index');
+                    if (content.team.members[index]) {
+                        content.team.members[index].name = $(this).find('.member-name').val();
+                        content.team.members[index].position = $(this).find('.member-position').val();
+                        content.team.members[index].phone = $(this).find('.member-phone').val();
+                        content.team.members[index].image = $(this).find('.member-image').val();
+                        if (!content.team.members[index].social_links) {
+                            content.team.members[index].social_links = {};
+                        }
+                        content.team.members[index].social_links.facebook = $(this).find('.member-facebook').val();
+                        content.team.members[index].social_links.instagram = $(this).find('.member-instagram').val();
+                    }
+                });
+            }
+
+            // Update hero slides from form
+            if (content['hero-slides'] && content['hero-slides'].slides) {
+                $('.array-item[data-index]').each(function() {
+                    const index = $(this).data('index');
+                    if (content['hero-slides'].slides[index]) {
+                        content['hero-slides'].slides[index].title = $(this).find('.slide-title').val();
+                        content['hero-slides'].slides[index].subtitle = $(this).find('.slide-subtitle').val();
+                        content['hero-slides'].slides[index].description = $(this).find('.slide-description').val();
+                        content['hero-slides'].slides[index].background_image = $(this).find('.slide-bg-image').val();
+                        content['hero-slides'].slides[index].button1_text = $(this).find('.slide-btn1-text').val();
+                        content['hero-slides'].slides[index].button1_link = $(this).find('.slide-btn1-link').val();
+                        content['hero-slides'].slides[index].button2_text = $(this).find('.slide-btn2-text').val();
+                        content['hero-slides'].slides[index].button2_link = $(this).find('.slide-btn2-link').val();
+                    }
+                });
+            }
+
+            // Contact section
+            if (!content.contact) content.contact = {};
+            content.contact.address = $('#contactAddress').val();
+            content.contact.phone = $('#contactPhone').val();
+            content.contact.whatsapp = $('#contactWhatsApp').val();
+            content.contact.email = $('#contactEmail').val();
+        }
+
+        // Export content as downloadable files
+        function exportContent() {
+            updateContentFromForm();
+            
+            // Create downloadable files
+            const files = [];
+            
+            // Site settings
+            files.push({
+                name: 'site-settings.md',
+                content: createMarkdownFile('site-settings', content['site-settings'])
+            });
+            
+            // Hero slides
+            files.push({
+                name: 'hero-slides.md',
+                content: createMarkdownFile('hero-slides', content['hero-slides'])
+            });
+            
+            // About
+            files.push({
+                name: 'about.md',
+                content: createMarkdownFile('about', content.about)
+            });
+            
+            // Team
+            files.push({
+                name: 'team.md',
+                content: createMarkdownFile('team', content.team)
+            });
+            
+            // Contact
+            files.push({
+                name: 'contact.md',
+                content: createMarkdownFile('contact', content.contact)
+            });
+
+            // Create zip file
+            createZipFile(files);
+        }
+
+        // Create markdown file content
+        function createMarkdownFile(section, data) {
+            let yaml = '---\n';
+            
+            for (let key in data) {
+                if (Array.isArray(data[key])) {
+                    yaml += `${key}:\n`;
+                    data[key].forEach(item => {
+                        yaml += `  - `;
+                        if (typeof item === 'object') {
+                            yaml += `\n`;
+                            for (let subKey in item) {
+                                if (typeof item[subKey] === 'object') {
+                                    yaml += `    ${subKey}:\n`;
+                                    for (let subSubKey in item[subKey]) {
+                                        yaml += `      ${subSubKey}: "${item[subKey][subSubKey]}"\n`;
+                                    }
+                                } else {
+                                    yaml += `    ${subKey}: "${item[subKey]}"\n`;
+                                }
+                            }
+                        } else {
+                            yaml += `"${item}"\n`;
+                        }
+                    });
+                } else {
+                    yaml += `${key}: "${data[key]}"\n`;
+                }
+            }
+            
+            yaml += '---\n';
+            return yaml;
+        }
+
+        // Create and download zip file
+        function createZipFile(files) {
+            // Simple implementation - in a real scenario, you'd use a zip library
+            let zipContent = '';
+            files.forEach(file => {
+                zipContent += `=== ${file.name} ===\n${file.content}\n\n`;
+            });
+            
+            const blob = new Blob([zipContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'yamac-harita-content.zip';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus('Content exported successfully! Download the zip file and replace the content files in your repository.', 'success');
+        }
+
+        // Preview the site
+        function previewSite() {
+            window.open('editable-index.html', '_blank');
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusEl = $('#statusMessage');
+            statusEl.removeClass('status-success status-error status-info');
+            statusEl.addClass(`status-${type}`);
+            statusEl.text(message).show();
+            
+            setTimeout(() => {
+                statusEl.fadeOut();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
